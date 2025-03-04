@@ -743,11 +743,11 @@
 
         musicPlayer.addEventListener('click', function() {
             if (isPlaying) {
-                bgMusic.play();
-                musicPlayer.innerHTML = '<div class="music-player-icon">♪</div>';
-            } else {
                 bgMusic.pause();
                 musicPlayer.innerHTML = '<div class="music-player-icon">■</div>';
+            } else {
+                bgMusic.play();
+                musicPlayer.innerHTML = '<div class="music-player-icon">♪</div>';
             }
             isPlaying = !isPlaying;
         });
