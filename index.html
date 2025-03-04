@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan</title>
+    <style>
+        /* Font imports */
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap');
+
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            background-color: #f9f7f5;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Great Vibes', cursive;
+            color: #d4af37;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #d4af37;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background-color: #b8941f;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header */
+        header {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .header-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .names {
+            font-size: 4.5rem;
+            margin-bottom: 30px;
+            color: #d4af37;
+        }
+
+        /* Countdown */
+        .countdown {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: -70px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .countdown-box {
+            width: 80px;
+            height: 80px;
+            background-color: #f9f7f5;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .countdown-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d4af37;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        /* Couple */
+        .couple {
+            padding: 100px 0;
+        }
+
+        .couple-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 50px;
+        }
+
+        .person {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .person-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background-color: #f0f0f0;
+            background-image: url('/api/placeholder/200/200');
+            background-size: cover;
+            background-position: center;
+            border: 5px solid #d4af37;
+        }
+
+        .person-name {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .person-desc {
+            margin-bottom: 20px;
+        }
+
+        /* Events */
+        .events {
+            background-color: #f0ebe5;
+            padding: 100px 0;
+        }
+
+        .event-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px auto;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .event-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .event-details {
+            margin-bottom: 20px;
+        }
+
+        .event-icon {
+            margin-right: 10px;
+            color: #d4af37;
+        }
+
+        /* Gallery */
+        .gallery {
+            padding: 100px 0;
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .gallery-item {
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            background-image: url('/api/placeholder/400/400');
+            background-size: cover;
+            background-position: center;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Gifts */
+        .gifts {
+            background-color: #f0ebe5;
+            padding: 100px 0;
+        }
+
+        .bank-accounts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .bank-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            min-width: 300px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .bank-logo {
+            width: 100px;
+            height: auto;
+            margin: 0 auto 20px;
+        }
+
+        .account-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 10px 0;
+            letter-spacing: 2px;
+        }
+
+        .copy-btn {
+            cursor: pointer;
+            color: #d4af37;
+            border: none;
+            background: none;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
+
+        /* Wishes */
+        .wishes {
+            padding: 100px 0;
+        }
+
+        .wish-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .form-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .wishes-container {
+            margin-top: 50px;
+        }
+
+        .wish-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .wish-name {
+            font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 5px;
+        }
+
+        .wish-message {
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .wish-date {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 10px;
+        }
+        
+        /* New styles for enhanced wishes */
+        .wish-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .wish-action-btn {
+            background: none;
+            border: none;
+            color: #777;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .wish-action-btn:hover {
+            color: #d4af37;
+        }
+
+        .wish-like-count {
+            color: #d4af37;
+            font-weight: 500;
+        }
+
+        .wish-liked {
+            color: #d4af37;
+        }
+
+        .wish-replies {
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 2px solid #f0ebe5;
+            margin-left: 10px;
+        }
+
+        .wish-reply {
+            background-color: #f9f7f5;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .wish-reply-form {
+            margin-top: 10px;
+            display: none;
+        }
+
+        .reply-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+            resize: vertical;
+            height: 80px;
+        }
+
+        .reply-btn {
+            padding: 8px 16px;
+            background-color: #d4af37;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .reply-btn:hover {
+            background-color: #b8941f;
+        }
+        
+        .reply-action-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cancel-reply-btn {
+            padding: 8px 16px;
+            background-color: #f0f0f0;
+            color: #777;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .cancel-reply-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .wish-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(212, 175, 55, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+        
+        .wish-notification.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .realtime-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .realtime-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+        
+        /* Loading spinner */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #d4af37;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background-color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            transform: scale(1.1);
+        }
+
+        .music-player-icon {
+            color: #d4af37;
+            font-size: 1.3rem;
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .header-title {
+                font-size: 2.5rem;
+            }
+
+            .names {
+                font-size: 3rem;
+            }
+
+            .countdown-container {
+                gap: 10px;
+            }
+
+            .countdown-box {
+                width: 60px;
+                height: 60px;
+            }
+
+            .countdown-value {
+                font-size: 1.5rem;
+            }
+
+            .countdown-label {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <p>Kami Mengundang Anda Ke Pernikahan</p>
+        <h1 class="names">Alfi & Zahra</h1>
+        <p>Sabtu, 10 Mei 2025</p>
+        <a href="#events" class="btn">Detail Acara</a>
+    </header>
+
+    <!-- Countdown -->
+    <section class="container">
+        <div class="countdown">
+            <h2 class="text-center">Menghitung Hari</h2>
+            <div class="countdown-container" id="countdown">
+                <div class="countdown-box">
+                    <div id="days" class="countdown-value">00</div>
+                    <div class="countdown-label">Hari</div>
+                </div>
+                <div class="countdown-box">
+                    <div id="hours" class="countdown-value">00</div>
+                    <div class="countdown-label">Jam</div>
+                </div>
+                <div class="countdown-box">
+                    <div id="minutes" class="countdown-value">00</div>
+                    <div class="countdown-label">Menit</div>
+                </div>
+                <div class="countdown-box">
+                    <div id="seconds" class="countdown-value">00</div>
+                    <div class="countdown-label">Detik</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Couple -->
+    <section class="couple">
+        <div class="container">
+            <h2 class="text-center">Mempelai</h2>
+            <div class="couple-container">
+                <div class="person">
+                    <div class="person-image"></div>
+                    <h3 class="person-name">Nama lengkap Alfi</h3>
+                    <p class="person-desc">Putra dari Bapak ... & Ibu ...</p>
+                    <a href="https://instagram.com/" target="_blank" class="btn">Instagram</a>
+                </div>
+                <div class="person">
+                    <div class="person-image"></div>
+                    <h3 class="person-name">Nama lengkap Zahra</h3>
+                    <p class="person-desc">Putri dari Bapak ... & Ibu ...</p>
+                    <a href="https://instagram.com/" target="_blank" class="btn">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events -->
+    <section class="events" id="events">
+        <div class="container">
+            <h2 class="text-center">Acara</h2>
+            <div class="event-card">
+                <h3 class="event-title text-center">Akad Nikah</h3>
+                <div class="event-details">
+                    <p><span class="event-icon">📅</span> Sabtu, 10 Mei 2025</p>
+                    <p><span class="event-icon">⏰</span> Mulai - Selesai WIB</p>
+                    <p><span class="event-icon">📍</span> Alamat lengkap acara</p>
+                </div>
+            </div>
+            <div class="event-card">
+                <h3 class="event-title text-center">Resepsi</h3>
+                <div class="event-details">
+                    <p><span class="event-icon">📅</span> Sabtu, 10 Mei 2025</p>
+                    <p><span class="event-icon">⏰</span> Mulai - Selesai WIB</p>
+                    <p><span class="event-icon">📍</span> Alamat lengkap acara</p>
+                </div>
+                <div class="text-center">
+                    <a href="https://maps.google.com" target="_blank" class="btn">Lihat Lokasi</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="gallery">
+        <div class="container">
+            <h2 class="text-center">Galeri Foto</h2>
+            <div class="gallery-container">
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gifts -->
+    <section class="gifts">
+        <div class="container">
+            <h2 class="text-center">Kirim Hadiah</h2>
+            <p class="text-center">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun, jika memberi adalah ungkapan tanda kasih Anda, Anda dapat memberi kado secara cashless.</p>
+            <div class="bank-accounts">
+                <div class="bank-card">
+                    <h3>Bank BCA</h3>
+                    <p>Anita Sari</p>
+                    <p class="account-number" id="account1">1234567890</p>
+                    <button class="copy-btn" onclick="copyToClipboard('account1')">Salin Nomor Rekening</button>
+                </div>
+                <div class="bank-card">
+                    <h3>Bank BNI</h3>
+                    <p>Budi Santoso</p>
+                    <p class="account-number" id="account2">0987654321</p>
+                    <button class="copy-btn" onclick="copyToClipboard('account2')">Salin Nomor Rekening</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wishes -->
+    <section class="wishes">
+        <div class="container">
+            <h2 class="text-center">Ucapan & Doa</h2>
+            <div class="wish-form">
+                <form id="wishForm">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Nama</label>
+                        <input type="text" id="name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="form-label">Ucapan & Doa</label>
+                        <textarea id="message" class="form-textarea" required></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn">Kirim Ucapan</button>
+                    </div>
+                </form>
+                <div class="realtime-indicator">
+                    <div class="realtime-dot"></div>
+                    <span>Melihat ucapan secara realtime</span>
+                </div>
+            </div>
+            <div class="wishes-container" id="wishesContainer">
+                <div class="loading-spinner" id="wishesLoading"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notification -->
+    <div class="wish-notification" id="notification"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h2>Anita & Budi</h2>
+            <p>Terima kasih atas doa dan restu Anda</p>
+            <p>15 April 2025</p>
+        </div>
+    </footer>
+
+    <!-- Music Player -->
+    <div class="music-player" id="musicPlayer">
+        <div class="music-player-icon">♪</div>
+    </div>
+    <audio id="bgMusic" loop autoplay>
+        <source src="/assets/music/Anugerah Terindah - Andmesh (Saxophone Cover by Dori Wirawan).mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Countdown Timer
+        function updateCountdown() {
+            const weddingDate = new Date('April 15, 2025 08:00:00').getTime();
+            const now = new Date().getTime();
+            const timeLeft = weddingDate - now;
+
+            if (timeLeft > 0) {
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                document.getElementById('days').innerHTML = days.toString().padStart(2, '0');
+                document.getElementById('hours').innerHTML = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
+            } else {
+                document.getElementById('countdown').innerHTML = "<h3>Acara Telah Dimulai!</h3>";
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Music Player
+        const musicPlayer = document.getElementById('musicPlayer');
+        const bgMusic = document.getElementById('bgMusic');
+        let isPlaying = false;
+
+        musicPlayer.addEventListener('click', function() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicPlayer.innerHTML = '<div class="music-player-icon">■</div>';
+            } else {
+                bgMusic.play();
+                musicPlayer.innerHTML = '<div class="music-player-icon">♪</div>';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Enhanced Wishes System with Realtime, Replies, and Likes
+        
+        // Generate a random user ID for this session (normally would be from authentication)
+        const currentUserId = Math.random().toString(36).substring(2, 15);
+
+        // Add a simple authentication mechanism for the couple
+        // In a real application, this would use proper authentication
+        let isCoupleLoggedIn = false;
+        let couplePassword = "wedding2025"; // Simple password for the couple
+
+        // Add a hidden admin login feature
+        // We'll add a function that runs when clicking on the couple's names multiple times
+        let nameClickCount = 0;
+        const coupleNames = document.querySelector('.names');
+
+        coupleNames.addEventListener('click', function() {
+            nameClickCount++;
+            
+            // If clicked 5 times, show login prompt
+            if (nameClickCount === 5) {
+                nameClickCount = 0;
+                
+                const password = prompt("Masukkan password untuk akses pengantin:");
+                
+                if (password === couplePassword) {
+                    isCoupleLoggedIn = true;
+                    showNotification("Berhasil login sebagai Anita & Budi");
+                    
+                    // Add visual indicator that couple is logged in
+                    const adminIndicator = document.createElement('div');
+                    adminIndicator.id = 'adminIndicator';
+                    adminIndicator.style.position = 'fixed';
+                    adminIndicator.style.bottom = '20px';
+                    adminIndicator.style.left = '20px';
+                    adminIndicator.style.background = '#d4af37';
+                    adminIndicator.style.color = 'white';
+                    adminIndicator.style.padding = '5px 10px';
+                    adminIndicator.style.borderRadius = '5px';
+                    adminIndicator.style.fontSize = '12px';
+                    adminIndicator.style.zIndex = '100';
+                    adminIndicator.textContent = 'Mode Pengantin Aktif';
+                    
+                    document.body.appendChild(adminIndicator);
+                    
+                    // Add logout option
+                    const logoutBtn = document.createElement('button');
+                    logoutBtn.textContent = 'Logout';
+                    logoutBtn.style.marginLeft = '10px';
+                    logoutBtn.style.background = 'white';
+                    logoutBtn.style.color = '#d4af37';
+                    logoutBtn.style.border = 'none';
+                    logoutBtn.style.borderRadius = '3px';
+                    logoutBtn.style.cursor = 'pointer';
+                    
+                    logoutBtn.addEventListener('click', function() {
+                        isCoupleLoggedIn = false;
+                        document.body.removeChild(adminIndicator);
+                        showNotification("Berhasil logout");
+                    });
+                    
+                    adminIndicator.appendChild(logoutBtn);
+                } else {
+                    showNotification("Password salah");
+                }
+            }
+        });
+        
+        // Sample wishes data (would be stored in a database in a real app)
+        let wishes = [
+            {
+                id: "wish1",
+                name: "Dian Pratama",
+                message: "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.",
+                date: "1 Maret 2025",
+                likes: 5,
+                likedBy: ["user1", "user2"],
+                replies: [
+                    {
+                        id: "reply1",
+                        name: "Anita & Budi",
+                        message: "Terima kasih banyak atas doa dan ucapannya, Dian!",
+                        date: "1 Maret 2025"
+                    }
+                ]
+            },
+            {
+                id: "wish2",
+                name: "Rini Wijaya",
+                message: "Bahagia selalu untuk Anita dan Budi! Semoga menjadi pasangan yang sehati sejiwa selamanya.",
+                date: "28 Februari 2025",
+                likes: 3,
+                likedBy: ["user3", "user4"],
+                replies: []
+            }
+        ];
+
+        // Function to show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('active');
+            
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 3000);
+        }
+
+        // Display wishes
+        function displayWishes() {
+            const wishesContainer = document.getElementById('wishesContainer');
+            const wishesLoading = document.getElementById('wishesLoading');
+            
+            if (wishesLoading) {
+                wishesLoading.style.display = 'none';
+            }
+            
+            wishesContainer.innerHTML = '';
+            
+            if (wishes.length === 0) {
+                wishesContainer.innerHTML = '<p class="text-center">Belum ada ucapan. Jadilah yang pertama memberikan ucapan!</p>';
+                return;
+            }
+            
+            wishes.forEach(wish => {
+                const isLiked = wish.likedBy.includes(currentUserId);
+                
+                // Create the wish card
+                const wishCard = document.createElement('div');
+                wishCard.className = 'wish-card';
+                wishCard.id = wish.id;
+                
+                // Add the main wish content
+                wishCard.innerHTML = `
+                    <div class="wish-name">${wish.name}</div>
+                    <div class="wish-message">${wish.message}</div>
+                    <div class="wish-date">${wish.date}</div>
+                    <div class="wish-actions">
+                        <button class="wish-action-btn like-btn ${isLiked ? 'wish-liked' : ''}" data-wish-id="${wish.id}">
+                            ${isLiked ? '❤️' : '🤍'} <span class="wish-like-count">${wish.likes}</span>
+                        </button>
+                        <button class="wish-action-btn reply-btn" data-wish-id="${wish.id}">
+                            💬 Balas
+                        </button>
+                    </div>
+                    <div class="wish-reply-form" id="replyForm-${wish.id}">
+                        <textarea class="reply-textarea" placeholder="Tulis balasan Anda..."></textarea>
+                        <div class="reply-action-container">
+                            <button class="reply-btn send-reply-btn" data-wish-id="${wish.id}">Kirim</button>
+                            <button class="cancel-reply-btn" data-wish-id="${wish.id}">Batal</button>
+                        </div>
+                    </div>
+                `;
+                
+                // Add replies if there are any
+                if (wish.replies.length > 0) {
+                    const repliesDiv = document.createElement('div');
+                    repliesDiv.className = 'wish-replies';
+                    
+                    wish.replies.forEach(reply => {
+                        const replyDiv = document.createElement('div');
+                        replyDiv.className = 'wish-reply';
+                        
+                        // Add special class for couple's replies
+                        if (reply.isCouple || reply.name === "Anita & Budi") {
+                            replyDiv.classList.add('couple-reply');
+                            replyDiv.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+                            replyDiv.style.borderLeft = '3px solid #d4af37';
+                        }
+                        
+                        replyDiv.innerHTML = `
+                            <div class="wish-name">${reply.name}</div>
+                            <div class="wish-message">${reply.message}</div>
+                            <div class="wish-date">${reply.date}</div>
+                        `;
+                        repliesDiv.appendChild(replyDiv);
+                    });
+                    
+                    wishCard.appendChild(repliesDiv);
+                }
+                
+                wishesContainer.appendChild(wishCard);
+            });
+            
+            // Add event listeners for like buttons
+            document.querySelectorAll('.like-btn').forEach(button => {
+                button.addEventListener('click', handleLike);
+            });
+            
+            // Add event listeners for reply buttons
+            document.querySelectorAll('.reply-btn').forEach(button => {
+                button.addEventListener('click', toggleReplyForm);
+            });
+            
+            // Add event listeners for send reply buttons
+            document.querySelectorAll('.send-reply-btn').forEach(button => {
+                button.addEventListener('click', handleSendReply);
+            });
+            
+            // Add event listeners for cancel reply buttons
+            document.querySelectorAll('.cancel-reply-btn').forEach(button => {
+                button.addEventListener('click', toggleReplyForm);
+            });
+        }
+
+        // Handle like button click
+        function handleLike(e) {
+            const wishId = e.currentTarget.getAttribute('data-wish-id');
+            const wish = wishes.find(w => w.id === wishId);
+            
+            if (!wish) return;
+            
+            const isAlreadyLiked = wish.likedBy.includes(currentUserId);
+            
+            if (isAlreadyLiked) {
+                // Unlike
+                wish.likes--;
+                wish.likedBy = wish.likedBy.filter(id => id !== currentUserId);
+                e.currentTarget.innerHTML = `🤍 <span class="wish-like-count">${wish.likes}</span>`;
+                e.currentTarget.classList.remove('wish-liked');
+                showNotification("Anda telah membatalkan suka pada ucapan ini");
+            } else {
+                // Like
+                wish.likes++;
+                wish.likedBy.push(currentUserId);
+                e.currentTarget.innerHTML = `❤️ <span class="wish-like-count">${wish.likes}</span>`;
+                e.currentTarget.classList.add('wish-liked');
+                showNotification("Terima kasih telah menyukai ucapan ini");
+            }
+        }
+
+        // Toggle reply form visibility
+        function toggleReplyForm(e) {
+            const wishId = e.currentTarget.getAttribute('data-wish-id');
+            const replyForm = document.getElementById(`replyForm-${wishId}`);
+            
+            if (replyForm.style.display === 'block') {
+                replyForm.style.display = 'none';
+            } else {
+                // Hide all other reply forms first
+                document.querySelectorAll('.wish-reply-form').forEach(form => {
+                    form.style.display = 'none';
+                });
+                
+                replyForm.style.display = 'block';
+                replyForm.querySelector('textarea').focus();
+            }
+        }
+
+        // Handle sending a reply
+        function handleSendReply(e) {
+        const wishId = e.currentTarget.getAttribute('data-wish-id');
+        const replyForm = document.getElementById(`replyForm-${wishId}`);
+        const replyText = replyForm.querySelector('textarea').value.trim();
+        
+        if (!replyText) {
+            showNotification("Harap isi balasan Anda terlebih dahulu");
+            return;
+        }
+        
+        const wish = wishes.find(w => w.id === wishId);
+        
+        if (!wish) return;
+            
+            // Get current date in Indonesian format
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = now.toLocaleDateString('id-ID', options);
+            
+            // Create new reply with different name based on login status
+            const newReply = {
+                id: `reply-${Date.now()}`,
+                // Use "Anita & Budi" if the couple is logged in, otherwise use the name from the form
+                name: isCoupleLoggedIn ? "Anita & Budi" : (document.getElementById('name').value || 'Tamu'),
+                message: replyText,
+                date: formattedDate
+            };
+            
+            // Add a special class for couple's replies for styling
+            if (isCoupleLoggedIn) {
+                newReply.isCouple = true;
+            }
+            
+            // Add reply to the wish
+            wish.replies.push(newReply);
+            
+            // Update display and clear form
+            displayWishes();
+            showNotification("Balasan berhasil dikirim");
+        }
+
+        // Handle submitting a new wish
+        document.getElementById('wishForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nameInput = document.getElementById('name');
+            const messageInput = document.getElementById('message');
+            
+            const name = nameInput.value.trim();
+            const message = messageInput.value.trim();
+            
+            if (!name || !message) {
+                showNotification("Harap isi semua kolom yang diperlukan");
+                return;
+            }
+            
+            // Get current date in Indonesian format
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = now.toLocaleDateString('id-ID', options);
+            
+            // Create new wish
+            const newWish = {
+                id: `wish-${Date.now()}`,
+                name: name,
+                message: message,
+                date: formattedDate,
+                likes: 0,
+                likedBy: [],
+                replies: []
+            };
+            
+            // Add to wishes array
+            wishes.unshift(newWish);
+            
+            // Clear form
+            nameInput.value = '';
+            messageInput.value = '';
+            
+            // Update display
+            displayWishes();
+            showNotification("Terima kasih atas ucapan dan doa Anda");
+        });
+
+        // Function to copy bank account number to clipboard
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(
+                function() {
+                    // Show notification
+                    showNotification("Nomor rekening berhasil disalin");
+                },
+                function() {
+                    // Fallback for browsers that don't support clipboard API
+                    const textArea = document.createElement("textarea");
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textArea);
+                    showNotification("Nomor rekening berhasil disalin");
+                }
+            );
+        }
+
+        // Handle smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add simulated realtime updates (would use WebSockets in a real app)
+        function simulateRealtimeUpdates() {
+            const sampleMessages = [
+                "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.",
+                "Bahagia selalu untuk Anita dan Budi! Semoga selalu diberkahi.",
+                "Selamat atas pernikahan kalian! Semoga cinta kalian abadi selamanya.",
+                "Semoga pernikahan kalian membawa keberkahan dan kebahagiaan selalu!",
+                "Barakallah! Semoga menjadi keluarga yang selalu dalam lindungan-Nya."
+            ];
+            
+            const sampleNames = [
+                "Ahmad Rizki",
+                "Siti Fatimah",
+                "Joko Susanto",
+                "Maya Indah",
+                "Eko Prasetyo"
+            ];
+            
+            // Simulate new wishes coming in every 30-60 seconds
+            setInterval(() => {
+                // 20% chance of a new wish coming in
+                if (Math.random() < 0.2) {
+                    const randomName = sampleNames[Math.floor(Math.random() * sampleNames.length)];
+                    const randomMessage = sampleMessages[Math.floor(Math.random() * sampleMessages.length)];
+                    
+                    // Get current date in Indonesian format
+                    const now = new Date();
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    const formattedDate = now.toLocaleDateString('id-ID', options);
+                    
+                    // Create new wish
+                    const newWish = {
+                        id: `wish-${Date.now()}`,
+                        name: randomName,
+                        message: randomMessage,
+                        date: formattedDate,
+                        likes: Math.floor(Math.random() * 3),
+                        likedBy: [],
+                        replies: []
+                    };
+                    
+                    // Add to wishes array
+                    wishes.push(newWish);
+                    
+                    // Update display
+                    displayWishes();
+                    showNotification(`Ucapan baru dari ${randomName}`);
+                }
+            }, Math.random() * 30000 + 30000); // Random interval between 30-60 seconds
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displayWishes();
+            simulateRealtimeUpdates();
+            
+            // Initially pause the music to comply with autoplay policies
+            bgMusic.pause();
+            isPlaying = false;
+            musicPlayer.innerHTML = '<div class="music-player-icon">■</div>';
+        });
+    </script>
+</body>
+</html>
