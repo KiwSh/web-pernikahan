@@ -548,7 +548,7 @@
     <!-- Header -->
     <header>
         <p>Kami Mengundang Anda Ke Pernikahan</p>
-        <h1 class="names">Alfi & Zahra</h1>
+        <h1 class="names">Zahra & Alfi</h1>
         <p>Sabtu, 10 Mei 2025</p>
         <a href="#events" class="btn">Detail Acara</a>
     </header>
@@ -585,14 +585,14 @@
             <div class="couple-container">
                 <div class="person">
                     <div class="person-image"></div>
-                    <h3 class="person-name">Nama lengkap Alfi</h3>
-                    <p class="person-desc">Putra dari Bapak ... & Ibu ...</p>
+                    <h3 class="person-name">Nama lengkap Zahra</h3>
+                    <p class="person-desc">Putri dari Bapak ... & Ibu ...</p>
                     <a href="https://instagram.com/" target="_blank" class="btn">Instagram</a>
                 </div>
                 <div class="person">
                     <div class="person-image"></div>
-                    <h3 class="person-name">Nama lengkap Zahra</h3>
-                    <p class="person-desc">Putri dari Bapak ... & Ibu ...</p>
+                    <h3 class="person-name">Nama lengkap Alfi</h3>
+                    <p class="person-desc">Putra dari Bapak ... & Ibu ...</p>
                     <a href="https://instagram.com/" target="_blank" class="btn">Instagram</a>
                 </div>
             </div>
@@ -648,13 +648,13 @@
             <div class="bank-accounts">
                 <div class="bank-card">
                     <h3>Bank BCA</h3>
-                    <p>Anita Sari</p>
+                    <p>Nama lengkap Zahra</p>
                     <p class="account-number" id="account1">1234567890</p>
                     <button class="copy-btn" onclick="copyToClipboard('account1')">Salin Nomor Rekening</button>
                 </div>
                 <div class="bank-card">
                     <h3>Bank BNI</h3>
-                    <p>Budi Santoso</p>
+                    <p>Nama lengkap Alfi</p>
                     <p class="account-number" id="account2">0987654321</p>
                     <button class="copy-btn" onclick="copyToClipboard('account2')">Salin Nomor Rekening</button>
                 </div>
@@ -697,9 +697,9 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <h2>Anita & Budi</h2>
+            <h2>Zahra & Alfi</h2>
             <p>Terima kasih atas doa dan restu Anda</p>
-            <p>15 April 2025</p>
+            <p>10 Mei 2025</p>
         </div>
     </footer>
 
@@ -778,7 +778,7 @@
                 
                 if (password === couplePassword) {
                     isCoupleLoggedIn = true;
-                    showNotification("Berhasil login sebagai Anita & Budi");
+                    showNotification("Berhasil login sebagai Zahra & Alfi");
                     
                     // Add visual indicator that couple is logged in
                     const adminIndicator = document.createElement('div');
@@ -823,7 +823,7 @@
         let wishes = [
             {
                 id: "wish1",
-                name: "Dian Pratama",
+                name: "Wine & Dodi",
                 message: "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.",
                 date: "1 Maret 2025",
                 likes: 5,
@@ -831,16 +831,16 @@
                 replies: [
                     {
                         id: "reply1",
-                        name: "Anita & Budi",
-                        message: "Terima kasih banyak atas doa dan ucapannya, Dian!",
+                        name: "Zahra & Alfi",
+                        message: "Terima kasih banyak atas doa dan ucapannya, Teteh & Om!",
                         date: "1 Maret 2025"
                     }
                 ]
             },
             {
                 id: "wish2",
-                name: "Rini Wijaya",
-                message: "Bahagia selalu untuk Anita dan Budi! Semoga menjadi pasangan yang sehati sejiwa selamanya.",
+                name: "Aldri & Intan",
+                message: "Bahagia selalu untuk Zahra dan Alfi! Semoga menjadi pasangan yang sehati sejiwa selamanya.",
                 date: "28 Februari 2025",
                 likes: 3,
                 likedBy: ["user3", "user4"],
@@ -915,7 +915,7 @@
                         replyDiv.className = 'wish-reply';
                         
                         // Add special class for couple's replies
-                        if (reply.isCouple || reply.name === "Anita & Budi") {
+                        if (reply.isCouple || reply.name === "Zahra & Alfi") {
                             replyDiv.classList.add('couple-reply');
                             replyDiv.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
                             replyDiv.style.borderLeft = '3px solid #d4af37';
@@ -1023,8 +1023,8 @@
             // Create new reply with different name based on login status
             const newReply = {
                 id: `reply-${Date.now()}`,
-                // Use "Anita & Budi" if the couple is logged in, otherwise use the name from the form
-                name: isCoupleLoggedIn ? "Anita & Budi" : (document.getElementById('name').value || 'Tamu'),
+                // Use "Zahra & Alfi" if the couple is logged in, otherwise use the name from the form
+                name: isCoupleLoggedIn ? "Zahra & Alfi" : (document.getElementById('name').value || 'Tamu'),
                 message: replyText,
                 date: formattedDate
             };
@@ -1128,18 +1128,18 @@
         function simulateRealtimeUpdates() {
             const sampleMessages = [
                 "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.",
-                "Bahagia selalu untuk Anita dan Budi! Semoga selalu diberkahi.",
+                "Bahagia selalu untuk Zahra dan Alfi! Semoga selalu diberkahi.",
                 "Selamat atas pernikahan kalian! Semoga cinta kalian abadi selamanya.",
                 "Semoga pernikahan kalian membawa keberkahan dan kebahagiaan selalu!",
                 "Barakallah! Semoga menjadi keluarga yang selalu dalam lindungan-Nya."
             ];
             
             const sampleNames = [
-                "Ahmad Rizki",
-                "Siti Fatimah",
-                "Joko Susanto",
-                "Maya Indah",
-                "Eko Prasetyo"
+                "ade baru bilqis & faqih",
+                "Azalea",
+                "Faqih",
+                "Bilqis",
+                "Rifqi & Sharah"
             ];
             
             // Simulate new wishes coming in every 30-60 seconds
