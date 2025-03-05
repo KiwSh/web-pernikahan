@@ -733,13 +733,13 @@
                     <img src="/assets/images/bca.jpg" alt="Bank BCA" class="bank-logo">
                     <p>Nama lengkap Zahra</p>
                     <p class="account-number" id="account1">1234567890</p>
-                    <button class="copy-btn" onclick="copyToClipboard('account1')">Salin Nomor Rekening</button>
+                    <button class="copy-btn" data-target="account1">Salin Nomor Rekening</button>
                 </div>
                 <div class="bank-card">
                     <img src="/assets/images/bni.jpg" alt="Bank BNI" class="bank-logo">
                     <p>Nama lengkap Alfi</p>
                     <p class="account-number" id="account2">0987654321</p>
-                    <button class="copy-btn" onclick="copyToClipboard('account2')">Salin Nomor Rekening</button>
+                    <button class="copy-btn" data-target="account2">Salin Nomor Rekening</button>
                 </div>
             </div>
         </div>
@@ -938,14 +938,45 @@
 
         // Function to show notification
         function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.classList.add('active');
-            
-            setTimeout(() => {
-                notification.classList.remove('active');
-            }, 3000);
-        }
+    // Buat elemen notifikasi
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    
+    // Styling notifikasi dengan tambahan transisi
+    notification.style.position = 'fixed';
+    notification.style.top = '20px';
+    notification.style.left = '50%';
+    notification.style.transform = 'translateX(-50%)';
+    notification.style.backgroundColor = 'orange';
+    notification.style.color = 'white';
+    notification.style.padding = '10px';
+    notification.style.borderRadius = '5px';
+    notification.style.zIndex = '1000';
+    
+    // Tambahkan kelas untuk animasi
+    notification.style.opacity = '0';
+    notification.style.transition = 'opacity 0.3s ease-in-out';
+    
+    // Tambahkan ke body
+    document.body.appendChild(notification);
+    
+    // Trigger reflow untuk memastikan transisi berfungsi
+    notification.offsetHeight;
+    
+    // Fade in
+    notification.style.opacity = '1';
+    
+    // Fade out dan hapus setelah 2 detik
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        
+        // Tunggu animasi selesai sebelum menghapus
+        notification.addEventListener('transitionend', () => {
+            document.body.removeChild(notification);
+        });
+    }, 2000);
+}
+
 
         // Inisialisasi Firebase
         const firebaseConfig = {
@@ -1160,23 +1191,57 @@
             const element = document.getElementById(elementId);
             const text = element.textContent;
             
-            navigator.clipboard.writeText(text).then(
-                function() {
-                    // Show notification
-                    showNotification("Nomor rekening berhasil disalin");
-                },
-                function() {
-                    // Fallback for browsers that don't support clipboard API
-                    const textArea = document.createElement("textarea");
-                    textArea.value = text;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand("copy");
-                    document.body.removeChild(textArea);
-                    showNotification("Nomor rekening berhasil disalin");
-                }
-            );
+            // Coba menggunakan Clipboard API
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(
+                    function() {
+                        showNotification("Nomor rekening berhasil disalin");
+                    },
+                    function(err) {
+                        console.error('Could not copy text: ', err);
+                        fallbackCopyTextToClipboard(text);
+                    }
+                );
+            } else {
+                // Fallback untuk browser yang tidak mendukung Clipboard API
+                fallbackCopyTextToClipboard(text);
+            }
         }
+
+        // Fallback copy method
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            
+            // Hindari scrolling saat menambahkan textarea
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                const msg = successful ? 'successful' : 'unsuccessful';
+                showNotification("Nomor rekening berhasil disalin");
+            } catch (err) {
+                console.error('Fallback copy failed', err);
+                showNotification("Gagal menyalin nomor rekening");
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        // Tambahkan event listener ke semua tombol salin
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                copyToClipboard(targetId);
+            });
+        });
 
         // Handle smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
