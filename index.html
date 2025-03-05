@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Undangan Pernikahan</title>
@@ -58,7 +60,7 @@
         /* Header */
         header {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/images/ELL_6491.JPG') center/cover no-repeat;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -136,13 +138,25 @@
             text-align: center;
         }
 
-        .person-image {
+        .person-image-zahra {
             width: 200px;
             height: 200px;
             border-radius: 50%;
             margin: 0 auto 20px;
             background-color: #f0f0f0;
-            background-image: url('/api/placeholder/200/200');
+            background-image: url('/assets/images/ka-zahra.JPG');
+            background-size: cover;
+            background-position: center;
+            border: 5px solid #d4af37;
+        }
+
+        .person-image-alfi {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background-color: #f0f0f0;
+            background-image: url('/assets/images/ka-alfi.JPG');
             background-size: cover;
             background-position: center;
             border: 5px solid #d4af37;
@@ -584,16 +598,16 @@
             <h2 class="text-center">Mempelai</h2>
             <div class="couple-container">
                 <div class="person">
-                    <div class="person-image"></div>
+                    <div class="person-image-zahra"></div>
                     <h3 class="person-name">Nama lengkap Zahra</h3>
                     <p class="person-desc">Putri dari Bapak ... & Ibu ...</p>
-                    <a href="https://instagram.com/" target="_blank" class="btn">Instagram</a>
+                    <a href="https://www.instagram.com/zahrachamilaa/" target="_blank" class="btn">Instagram</a>
                 </div>
                 <div class="person">
-                    <div class="person-image"></div>
+                    <div class="person-image-alfi"></div>
                     <h3 class="person-name">Nama lengkap Alfi</h3>
                     <p class="person-desc">Putra dari Bapak ... & Ibu ...</p>
-                    <a href="https://instagram.com/" target="_blank" class="btn">Instagram</a>
+                    <a href="https://www.instagram.com/alfiriansyahcp/" target="_blank" class="btn">Instagram</a>
                 </div>
             </div>
         </div>
@@ -647,13 +661,13 @@
             <p class="text-center">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun, jika memberi adalah ungkapan tanda kasih Anda, Anda dapat memberi kado secara cashless.</p>
             <div class="bank-accounts">
                 <div class="bank-card">
-                    <h3>Bank BCA</h3>
+                    <img src="/assets/images/bca.jpg" alt="Bank BCA" class="bank-logo">
                     <p>Nama lengkap Zahra</p>
                     <p class="account-number" id="account1">1234567890</p>
                     <button class="copy-btn" onclick="copyToClipboard('account1')">Salin Nomor Rekening</button>
                 </div>
                 <div class="bank-card">
-                    <h3>Bank BNI</h3>
+                    <img src="/assets/images/bni.jpg" alt="Bank BNI" class="bank-logo">
                     <p>Nama lengkap Alfi</p>
                     <p class="account-number" id="account2">0987654321</p>
                     <button class="copy-btn" onclick="copyToClipboard('account2')">Salin Nomor Rekening</button>
@@ -711,7 +725,9 @@
         <source src="/assets/music/Anugerah Terindah - Andmesh (Saxophone Cover by Dori Wirawan).mp3" type="audio/mpeg">
     </audio>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
         // Countdown Timer
         function updateCountdown() {
             const weddingDate = new Date('April 15, 2025 08:00:00').getTime();
@@ -859,10 +875,24 @@
             }, 3000);
         }
 
-        // Display wishes
+        // Inisialisasi Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAVQJYATbfLDnl0IwImQVDAwrjDqzJ6moc",
+            authDomain: "undangan-f249c.firebaseapp.com",
+            databaseURL: "https://undangan-f249c-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "undangan-f249c",
+            storageBucket: "undangan-f249c.firebasestorage.app",
+            messagingSenderId: "G-34C2XZNGQM",
+            appId: "1:272172044665:web:98db8d951d7cacfea85fa8"
+        };
+
+        // Inisialisasi Firebase App
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         function displayWishes() {
-            const wishesContainer = document.getElementById('wishesContainer');
-            const wishesLoading = document.getElementById('wishesLoading');
+        const wishesContainer = document.getElementById('wishesContainer');
+        const wishesLoading = document.getElementById('wishesLoading');
             
             if (wishesLoading) {
                 wishesLoading.style.display = 'none';
@@ -870,116 +900,146 @@
             
             wishesContainer.innerHTML = '';
             
-            if (wishes.length === 0) {
-                wishesContainer.innerHTML = '<p class="text-center">Belum ada ucapan. Jadilah yang pertama memberikan ucapan!</p>';
-                return;
-            }
+            // Ambil data dari Firebase
+            const wishesRef = firebase.database().ref('wishes');
             
-            wishes.forEach(wish => {
-                const isLiked = wish.likedBy.includes(currentUserId);
+            wishesRef.once('value', (snapshot) => {
+                const wishesData = snapshot.val();
                 
-                // Create the wish card
-                const wishCard = document.createElement('div');
-                wishCard.className = 'wish-card';
-                wishCard.id = wish.id;
-                
-                // Add the main wish content
-                wishCard.innerHTML = `
-                    <div class="wish-name">${wish.name}</div>
-                    <div class="wish-message">${wish.message}</div>
-                    <div class="wish-date">${wish.date}</div>
-                    <div class="wish-actions">
-                        <button class="wish-action-btn like-btn ${isLiked ? 'wish-liked' : ''}" data-wish-id="${wish.id}">
-                            ${isLiked ? '❤️' : '🤍'} <span class="wish-like-count">${wish.likes}</span>
-                        </button>
-                        <button class="wish-action-btn reply-btn" data-wish-id="${wish.id}">
-                            💬 Balas
-                        </button>
-                    </div>
-                    <div class="wish-reply-form" id="replyForm-${wish.id}">
-                        <textarea class="reply-textarea" placeholder="Tulis balasan Anda..."></textarea>
-                        <div class="reply-action-container">
-                            <button class="reply-btn send-reply-btn" data-wish-id="${wish.id}">Kirim</button>
-                            <button class="cancel-reply-btn" data-wish-id="${wish.id}">Batal</button>
-                        </div>
-                    </div>
-                `;
-                
-                // Add replies if there are any
-                if (wish.replies.length > 0) {
-                    const repliesDiv = document.createElement('div');
-                    repliesDiv.className = 'wish-replies';
-                    
-                    wish.replies.forEach(reply => {
-                        const replyDiv = document.createElement('div');
-                        replyDiv.className = 'wish-reply';
-                        
-                        // Add special class for couple's replies
-                        if (reply.isCouple || reply.name === "Zahra & Alfi") {
-                            replyDiv.classList.add('couple-reply');
-                            replyDiv.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
-                            replyDiv.style.borderLeft = '3px solid #d4af37';
-                        }
-                        
-                        replyDiv.innerHTML = `
-                            <div class="wish-name">${reply.name}</div>
-                            <div class="wish-message">${reply.message}</div>
-                            <div class="wish-date">${reply.date}</div>
-                        `;
-                        repliesDiv.appendChild(replyDiv);
-                    });
-                    
-                    wishCard.appendChild(repliesDiv);
+                if (!wishesData) {
+                    wishesContainer.innerHTML = '<p class="text-center">Belum ada ucapan. Jadilah yang pertama memberikan ucapan!</p>';
+                    return;
                 }
                 
-                wishesContainer.appendChild(wishCard);
-            });
-            
-            // Add event listeners for like buttons
-            document.querySelectorAll('.like-btn').forEach(button => {
-                button.addEventListener('click', handleLike);
-            });
-            
-            // Add event listeners for reply buttons
-            document.querySelectorAll('.reply-btn').forEach(button => {
-                button.addEventListener('click', toggleReplyForm);
-            });
-            
-            // Add event listeners for send reply buttons
-            document.querySelectorAll('.send-reply-btn').forEach(button => {
-                button.addEventListener('click', handleSendReply);
-            });
-            
-            // Add event listeners for cancel reply buttons
-            document.querySelectorAll('.cancel-reply-btn').forEach(button => {
-                button.addEventListener('click', toggleReplyForm);
+                // Konversi object Firebase menjadi array
+                const wishesArray = Object.keys(wishesData).map(key => ({
+                    id: key,
+                    ...wishesData[key]
+                }));
+                
+                // Urutkan dari yang terbaru
+                wishesArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                wishesArray.forEach(wish => {
+                    const isLiked = wish.likedBy && wish.likedBy.includes(currentUserId);
+                    
+                    // Buat elemen wish card
+                    const wishCard = document.createElement('div');
+                    wishCard.className = 'wish-card';
+                    wishCard.id = wish.id;
+                    
+                    wishCard.innerHTML = `
+                        <div class="wish-name">${wish.name}</div>
+                        <div class="wish-message">${wish.message}</div>
+                        <div class="wish-date">${wish.date}</div>
+                        <div class="wish-actions">
+                            <button class="wish-action-btn like-btn ${isLiked ? 'wish-liked' : ''}" data-wish-id="${wish.id}">
+                                ${isLiked ? '❤️' : '🤍'} <span class="wish-like-count">${wish.likes || 0}</span>
+                            </button>
+                            <button class="wish-action-btn reply-btn" data-wish-id="${wish.id}">
+                                💬 Balas
+                            </button>
+                        </div>
+                        <div class="wish-reply-form" id="replyForm-${wish.id}">
+                            <textarea class="reply-textarea" placeholder="Tulis balasan Anda..."></textarea>
+                            <div class="reply-action-container">
+                                <button class="reply-btn send-reply-btn" data-wish-id="${wish.id}">Kirim</button>
+                                <button class="cancel-reply-btn" data-wish-id="${wish.id}">Batal</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Tambahkan replies jika ada
+                    if (wish.replies && Object.keys(wish.replies).length > 0) {
+                        const repliesDiv = document.createElement('div');
+                        repliesDiv.className = 'wish-replies';
+                        
+                        Object.values(wish.replies).forEach(reply => {
+                            const replyDiv = document.createElement('div');
+                            replyDiv.className = 'wish-reply';
+                            
+                            replyDiv.innerHTML = `
+                                <div class="wish-name">${reply.name}</div>
+                                <div class="wish-message">${reply.message}</div>
+                                <div class="wish-date">${reply.date}</div>
+                            `;
+                            
+                            repliesDiv.appendChild(replyDiv);
+                        });
+                        
+                        wishCard.appendChild(repliesDiv);
+                    }
+                    
+                    wishesContainer.appendChild(wishCard);
+                });
+                
+                // Tambahkan event listeners
+                document.querySelectorAll('.like-btn').forEach(button => {
+                    button.addEventListener('click', handleLike);
+                });
+                
+                document.querySelectorAll('.reply-btn').forEach(button => {
+                    button.addEventListener('click', toggleReplyForm);
+                });
+                
+                document.querySelectorAll('.send-reply-btn').forEach(button => {
+                    button.addEventListener('click', handleSendReply);
+                });
+                
+                document.querySelectorAll('.cancel-reply-btn').forEach(button => {
+                    button.addEventListener('click', toggleReplyForm);
+                });
             });
         }
 
         // Handle like button click
         function handleLike(e) {
             const wishId = e.currentTarget.getAttribute('data-wish-id');
-            const wish = wishes.find(w => w.id === wishId);
             
-            if (!wish) return;
+            // Referensi ke wish spesifik di Firebase
+            const wishRef = database.ref(`wishes/${wishId}`);
             
-            const isAlreadyLiked = wish.likedBy.includes(currentUserId);
-            
-            if (isAlreadyLiked) {
-                // Unlike
-                wish.likes--;
-                wish.likedBy = wish.likedBy.filter(id => id !== currentUserId);
-                e.currentTarget.innerHTML = `🤍 <span class="wish-like-count">${wish.likes}</span>`;
-                e.currentTarget.classList.remove('wish-liked');
-                showNotification("Anda telah membatalkan suka pada ucapan ini");
-            } else {
-                // Like
-                wish.likes++;
-                wish.likedBy.push(currentUserId);
-                e.currentTarget.innerHTML = `❤️ <span class="wish-like-count">${wish.likes}</span>`;
-                e.currentTarget.classList.add('wish-liked');
-                showNotification("Terima kasih telah menyukai ucapan ini");
-            }
+            // Gunakan transaction untuk menangani like/unlike secara aman
+            wishRef.transaction((currentData) => {
+                if (currentData) {
+                    // Inisialisasi likedBy jika belum ada
+                    if (!currentData.likedBy) {
+                        currentData.likedBy = [];
+                    }
+                    
+                    // Cek apakah sudah dilike
+                    const isAlreadyLiked = currentData.likedBy.includes(currentUserId);
+                    
+                    if (isAlreadyLiked) {
+                        // Unlike
+                        currentData.likes--;
+                        currentData.likedBy = currentData.likedBy.filter(id => id !== currentUserId);
+                        
+                        // Update tampilan tombol
+                        e.currentTarget.innerHTML = `🤍 <span class="wish-like-count">${currentData.likes}</span>`;
+                        e.currentTarget.classList.remove('wish-liked');
+                        showNotification("Anda telah membatalkan suka pada ucapan ini");
+                    } else {
+                        // Like
+                        currentData.likes++;
+                        currentData.likedBy.push(currentUserId);
+                        
+                        // Update tampilan tombol
+                        e.currentTarget.innerHTML = `❤️ <span class="wish-like-count">${currentData.likes}</span>`;
+                        e.currentTarget.classList.add('wish-liked');
+                        showNotification("Terima kasih telah menyukai ucapan ini");
+                    }
+                    
+                    return currentData;
+                }
+                return null;
+            }, (error, committed, snapshot) => {
+                if (error) {
+                    console.log('Transaction failed abnormally!', error);
+                } else if (!committed) {
+                    console.log('We aborted the transaction.');
+                }
+            });
         }
 
         // Toggle reply form visibility
@@ -1000,49 +1060,42 @@
             }
         }
 
-        // Handle sending a reply
+        // Modifikasi function handleSendReply
         function handleSendReply(e) {
-        const wishId = e.currentTarget.getAttribute('data-wish-id');
-        const replyForm = document.getElementById(`replyForm-${wishId}`);
-        const replyText = replyForm.querySelector('textarea').value.trim();
-        
-        if (!replyText) {
-            showNotification("Harap isi balasan Anda terlebih dahulu");
-            return;
-        }
-        
-        const wish = wishes.find(w => w.id === wishId);
-        
-        if (!wish) return;
+            const wishId = e.currentTarget.getAttribute('data-wish-id');
+            const replyForm = document.getElementById(`replyForm-${wishId}`);
+            const replyText = replyForm.querySelector('textarea').value.trim();
+            
+            if (!replyText) {
+                showNotification("Harap isi balasan Anda terlebih dahulu");
+                return;
+            }
             
             // Get current date in Indonesian format
             const now = new Date();
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const formattedDate = now.toLocaleDateString('id-ID', options);
             
-            // Create new reply with different name based on login status
+            // Buat objek balasan baru
             const newReply = {
-                id: `reply-${Date.now()}`,
-                // Use "Zahra & Alfi" if the couple is logged in, otherwise use the name from the form
                 name: isCoupleLoggedIn ? "Zahra & Alfi" : (document.getElementById('name').value || 'Tamu'),
                 message: replyText,
                 date: formattedDate
             };
             
-            // Add a special class for couple's replies for styling
-            if (isCoupleLoggedIn) {
-                newReply.isCouple = true;
-            }
-            
-            // Add reply to the wish
-            wish.replies.push(newReply);
-            
-            // Update display and clear form
-            displayWishes();
-            showNotification("Balasan berhasil dikirim");
+            // Simpan balasan ke Firebase
+            database.ref(`wishes/${wishId}/replies`).push(newReply)
+                .then(() => {
+                    displayWishes();
+                    showNotification("Balasan berhasil dikirim");
+                })
+                .catch((error) => {
+                    showNotification("Gagal mengirim balasan");
+                    console.error("Error:", error);
+                });
         }
 
-        // Handle submitting a new wish
+        // Modifikasi pengiriman ucapan baru
         document.getElementById('wishForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1062,27 +1115,25 @@
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const formattedDate = now.toLocaleDateString('id-ID', options);
             
-            // Create new wish
-            const newWish = {
-                id: `wish-${Date.now()}`,
+            // Simpan ucapan baru ke Firebase
+            const newWishRef = database.ref('wishes').push();
+            newWishRef.set({
                 name: name,
                 message: message,
                 date: formattedDate,
                 likes: 0,
                 likedBy: [],
                 replies: []
-            };
-            
-            // Add to wishes array
-            wishes.unshift(newWish);
-            
-            // Clear form
-            nameInput.value = '';
-            messageInput.value = '';
-            
-            // Update display
-            displayWishes();
-            showNotification("Terima kasih atas ucapan dan doa Anda");
+            }).then(() => {
+                // Clear form
+                nameInput.value = '';
+                messageInput.value = '';
+                
+                showNotification("Terima kasih atas ucapan dan doa Anda");
+            }).catch((error) => {
+                showNotification("Gagal mengirim ucapan");
+                console.error("Error:", error);
+            });
         });
 
         // Function to copy bank account number to clipboard
@@ -1124,62 +1175,20 @@
             });
         });
 
-        // Add simulated realtime updates (would use WebSockets in a real app)
-        function simulateRealtimeUpdates() {
-            const sampleMessages = [
-                "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.",
-                "Bahagia selalu untuk Zahra dan Alfi! Semoga selalu diberkahi.",
-                "Selamat atas pernikahan kalian! Semoga cinta kalian abadi selamanya.",
-                "Semoga pernikahan kalian membawa keberkahan dan kebahagiaan selalu!",
-                "Barakallah! Semoga menjadi keluarga yang selalu dalam lindungan-Nya."
-            ];
-            
-            const sampleNames = [
-                "ade baru bilqis & faqih",
-                "Azalea",
-                "Faqih",
-                "Bilqis",
-                "Rifqi & Sharah"
-            ];
-            
-            // Simulate new wishes coming in every 30-60 seconds
-            setInterval(() => {
-                // 20% chance of a new wish coming in
-                if (Math.random() < 0.2) {
-                    const randomName = sampleNames[Math.floor(Math.random() * sampleNames.length)];
-                    const randomMessage = sampleMessages[Math.floor(Math.random() * sampleMessages.length)];
-                    
-                    // Get current date in Indonesian format
-                    const now = new Date();
-                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                    const formattedDate = now.toLocaleDateString('id-ID', options);
-                    
-                    // Create new wish
-                    const newWish = {
-                        id: `wish-${Date.now()}`,
-                        name: randomName,
-                        message: randomMessage,
-                        date: formattedDate,
-                        likes: Math.floor(Math.random() * 3),
-                        likedBy: [],
-                        replies: []
-                    };
-                    
-                    // Add to wishes array
-                    wishes.push(newWish);
-                    
-                    // Update display
-                    displayWishes();
-                    showNotification(`Ucapan baru dari ${randomName}`);
-                }
-            }, Math.random() * 30000 + 30000); // Random interval between 30-60 seconds
-        }
+        // Tambahkan listener real-time untuk update otomatis
+    function setupRealtimeListener() {
+    const wishesRef = firebase.database().ref('wishes');
+    
+        wishesRef.on('child_added', (snapshot) => {
+        displayWishes(); // Refresh tampilan saat ada ucapan baru
+        });
+    }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            displayWishes();
-            simulateRealtimeUpdates();
-            
+        // Panggil fungsi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+        displayWishes();
+        setupRealtimeListener();
+
             // Initially pause the music to comply with autoplay policies
             bgMusic.pause();
             isPlaying = false;
