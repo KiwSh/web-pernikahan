@@ -893,32 +893,39 @@
         function displayWishes() {
         const wishesContainer = document.getElementById('wishesContainer');
         const wishesLoading = document.getElementById('wishesLoading');
+        
+        if (wishesLoading) {
+            wishesLoading.style.display = 'none';
+        }
+        
+        wishesContainer.innerHTML = '';
+        
+        // Ambil data dari Firebase
+        const wishesRef = firebase.database().ref('wishes');
+        
+        wishesRef.once('value', (snapshot) => {
+            const wishesData = snapshot.val();
             
-            if (wishesLoading) {
-                wishesLoading.style.display = 'none';
+            if (!wishesData) {
+                wishesContainer.innerHTML = '<p class="text-center">Belum ada ucapan. Jadilah yang pertama memberikan ucapan!</p>';
+                return;
             }
             
-            wishesContainer.innerHTML = '';
-            
-            // Ambil data dari Firebase
-            const wishesRef = firebase.database().ref('wishes');
-            
-            wishesRef.once('value', (snapshot) => {
-                const wishesData = snapshot.val();
-                
-                if (!wishesData) {
-                    wishesContainer.innerHTML = '<p class="text-center">Belum ada ucapan. Jadilah yang pertama memberikan ucapan!</p>';
-                    return;
-                }
-                
-                // Konversi object Firebase menjadi array
-                const wishesArray = Object.keys(wishesData).map(key => ({
+            // Konversi object Firebase menjadi array dan hapus duplikat
+            const wishesArray = Object.keys(wishesData)
+                .map(key => ({
                     id: key,
                     ...wishesData[key]
-                }));
-                
-                // Urutkan dari yang terbaru
-                wishesArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+                }))
+                // Hapus duplikat berdasarkan kombinasi nama dan pesan
+                .filter((wish, index, self) => 
+                    index === self.findIndex((w) => 
+                        w.name === wish.name && w.message === wish.message
+                    )
+                );
+            
+            // Urutkan dari yang terbaru
+            wishesArray.sort((a, b) => new Date(b.date) - new Date(a.date));
                 
                 wishesArray.forEach(wish => {
                     const isLiked = wish.likedBy && wish.likedBy.includes(currentUserId);
@@ -1176,13 +1183,29 @@
         });
 
         // Tambahkan listener real-time untuk update otomatis
-    function setupRealtimeListener() {
-    const wishesRef = firebase.database().ref('wishes');
-    
-        wishesRef.on('child_added', (snapshot) => {
-        displayWishes(); // Refresh tampilan saat ada ucapan baru
-        });
-    }
+        function setupRealtimeListener() {
+        const wishesRef = firebase.database().ref('wishes');
+            
+            // Gunakan 'child_added' dengan batasan
+            wishesRef.limitToLast(1).on('child_added', (snapshot) => {
+                const newWish = snapshot.val();
+                
+                // Cek apakah ucapan sudah ada sebelumnya
+                wishesRef.orderByChild('name').equalTo(newWish.name)
+                    .once('value', (existingSnapshot) => {
+                        const existingWishes = existingSnapshot.val();
+                        
+                        // Hanya refresh jika benar-benar ucapan baru
+                        if (!existingWishes || 
+                            !Object.values(existingWishes).some(
+                                wish => wish.message === newWish.message
+                            )) {
+                            displayWishes();
+                        }
+                    });
+            });
+        }
+
 
         // Panggil fungsi saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
